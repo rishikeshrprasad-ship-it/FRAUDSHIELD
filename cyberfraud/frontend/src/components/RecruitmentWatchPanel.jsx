@@ -44,7 +44,8 @@ export default function RecruitmentWatchPanel({ socket }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {ads.map((ad) => (\n          <div
+        {ads.map((ad) => (
+          <div
             key={ad.id}
             className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 space-y-3 shadow-xl hover:border-amber-500/50 transition"
           >
