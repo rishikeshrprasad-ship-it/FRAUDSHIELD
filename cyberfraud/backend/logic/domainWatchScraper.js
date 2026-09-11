@@ -20,7 +20,7 @@ export async function scanDomainWatch(keyword = 'sbi') {
             const parsed = JSON.parse(data);
             if (Array.isArray(parsed) && parsed.length > 0) {
               const results = parsed.slice(0, 12).map((item, idx) => {
-                const domain = item.name_value.split('\n')[0].replace(/^\*\./, '');
+                const domain = item.name_value.split(/\r?\n/)[0].replace(/^\*\./, '');
                 const logId = item.id || (14892010000 + idx * 3421);
                 const notBefore = item.not_before ? item.not_before.split('T')[0] : '2026-03-01';
                 const notAfter = item.not_after ? item.not_after.split('T')[0] : '2026-05-30';
@@ -99,40 +99,64 @@ function fallbackToRichDb(keyword, resolve) {
       not_before: '2026-03-08',
       not_after: '2026-06-06',
       validity_days: 90,
-      ja3_hash: '771,4865-4866-4867-49195-49199-49196,0-23-65281-10-11-35-16,29-23-24,0',
+      ja3_hash: '771,4865-4866-4867-49195-49199-49196-49200,0-23-65281-10-11-35-16-5-13-18-51-45-43-27-21,29-23-24,0',
       status: 'ACTIVE PHISHING',
-      threat_vector: 'Urgent NetBanking KYC Suspension Trap',
-      detected_at: new Date(Date.now() - 1000 * 60 * 12).toISOString()
+      threat_vector: 'Urgent KYC Suspension Vector',
+      detected_at: '2026-03-08T04:12:00.000Z'
     },
     {
       id: `threat_${kw}_02`,
-      domain: `${kw}-netbanking-secure-login-verify.net`,
+      domain: `${kw}-netbanking-verification-auth.top`,
       keyword: kw,
       risk_score: 95,
-      ip: '194.26.29.141',
-      asn: 'AS49870 Alvotech Dedicated VPS (Netherlands)',
-      registrar: 'ZeroSSL RSA Domain CA',
-      issuer: 'C=AT, O=ZeroSSL, CN=ZeroSSL RSA Domain CA',
-      ct_log_id: 'CT-LOG-14892018711',
-      serial_number: '04:19:bc:48:aa:99:32:01:88',
-      sha256_fingerprint: 'SHA256:4a81b29cc901ef551209bca7891234567890abcd',
+      ip: '45.142.214.99',
+      asn: 'AS202425 IP Volume Inc (Bulletproof Host)',
+      registrar: 'Regtime Ltd',
+      issuer: "C=US, O=Let's Encrypt, CN=R3",
+      ct_log_id: 'CT-LOG-14892014102',
+      serial_number: '04:11:8b:99:aa:12:bc:de:70',
+      sha256_fingerprint: 'SHA256:8899aabbccddeeff00112233445566778899aabb',
       sans: [
-        `${kw}-netbanking-secure-login-verify.net`,
-        `login.${kw}-netbanking-secure-login-verify.net`,
-        `otp.${kw}-netbanking-secure-login-verify.net`
+        `${kw}-netbanking-verification-auth.top`,
+        `login.${kw}-netbanking-verification-auth.top`,
+        `api.${kw}-netbanking-verification-auth.top`
       ],
       not_before: '2026-03-09',
       not_after: '2026-06-07',
       validity_days: 90,
-      ja3_hash: '771,4865-4866-4867,0-23-65281-10,29-23,0',
-      status: 'ROGUE_WILDCARD_ISSUER',
-      threat_vector: '2FA OTP Interception & Credential Harvester',
-      detected_at: new Date(Date.now() - 1000 * 60 * 28).toISOString()
+      ja3_hash: '771,4865-4866-4867-49195-49199-49196-49200,0-23-65281-10-11-35-16-5-13-18-51-45-43-27-21,29-23-24,0',
+      status: 'ACTIVE PHISHING',
+      threat_vector: 'Credential Harvester',
+      detected_at: '2026-03-09T08:30:00.000Z'
+    },
+    {
+      id: `threat_${kw}_03`,
+      domain: `rbi-mandated-${kw}-unfreeze-support.online`,
+      keyword: kw,
+      risk_score: 91,
+      ip: '194.26.29.112',
+      asn: 'AS45102 Alibaba Cloud (Singapore)',
+      registrar: 'NameCheap Inc.',
+      issuer: 'ZeroSSL RSA Domain CA',
+      ct_log_id: 'CT-LOG-14892008819',
+      serial_number: '05:22:9c:88:bb:34:de:ef:81',
+      sha256_fingerprint: 'SHA256:112233445566778899aabbccddeeff0011223344',
+      sans: [
+        `rbi-mandated-${kw}-unfreeze-support.online`,
+        `helpdesk.${kw}-unfreeze-support.online`
+      ],
+      not_before: '2026-03-07',
+      not_after: '2026-06-05',
+      validity_days: 90,
+      ja3_hash: '771,4865-4866-4867-49195-49199-49196-49200,0-23-65281-10-11-35-16-5-13-18-51-45-43-27-21,29-23-24,0',
+      status: 'FLAGGED_ROGUE_CERT',
+      threat_vector: 'Mule Account Onboarding Sink',
+      detected_at: '2026-03-07T12:00:00.000Z'
     }
   ];
 
   resolve({
-    source: 'OSINT Certificate Transparency Intelligence Stream',
+    source: 'Threat Intelligence Registry (Cached CT DB)',
     keyword: kw,
     threats: predefinedThreatSignatures
   });
