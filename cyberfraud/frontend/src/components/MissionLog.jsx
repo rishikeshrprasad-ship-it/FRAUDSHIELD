@@ -18,17 +18,41 @@ export default function MissionLog({ socket, userRole, user }) {
 
     const handleNewCase = (newCase) => {
       setLogEntries((prev) => [
-        {\n          id: Date.now(),\n          time: new Date().toLocaleTimeString(),\n          type: 'CASE_INGESTED',\n          message: `${newCase.id}: ${newCase.title} — ₹${Number(newCase.amount).toLocaleString('en-IN')} — Urgency ${newCase.urgency_score}/100`,\n          severity: 'critical'\n        },\n        ...prev\n      ].slice(0, 50));
+        {
+          id: Date.now(),
+          time: new Date().toLocaleTimeString(),
+          type: 'CASE_INGESTED',
+          message: `${newCase.id}: ${newCase.title} — ₹${Number(newCase.amount).toLocaleString('en-IN')} — Urgency ${newCase.urgency_score}/100`,
+          severity: 'critical'
+        },
+        ...prev
+      ].slice(0, 50));
     };
 
     const handleUpdatedCase = (updatedCase) => {
       setLogEntries((prev) => [
-        {\n          id: Date.now(),\n          time: new Date().toLocaleTimeString(),\n          type: 'CASE_UPDATED',\n          message: `${updatedCase.id}: Status → ${updatedCase.status.toUpperCase()} ${updatedCase.claimed_by_name ? `(${updatedCase.claimed_by_name})` : ''}`,\n          severity: 'success'\n        },\n        ...prev\n      ].slice(0, 50));
+        {
+          id: Date.now(),
+          time: new Date().toLocaleTimeString(),
+          type: 'CASE_UPDATED',
+          message: `${updatedCase.id}: Status → ${updatedCase.status.toUpperCase()} ${updatedCase.claimed_by_name ? `(${updatedCase.claimed_by_name})` : ''}`,
+          severity: 'success'
+        },
+        ...prev
+      ].slice(0, 50));
     };
 
     const handleDuress = (alert) => {
       setLogEntries((prev) => [
-        {\n          id: Date.now(),\n          time: new Date().toLocaleTimeString(),\n          type: 'TELLER_DURESS',\n          message: `🚨 DURESS ALERT: ${alert.branch_name || 'Branch'} — ${alert.teller_name || 'Teller'} — ₹${Number(alert.amount || 0).toLocaleString('en-IN')}`,\n          severity: 'critical'\n        },\n        ...prev\n      ].slice(0, 50));
+        {
+          id: Date.now(),
+          time: new Date().toLocaleTimeString(),
+          type: 'TELLER_DURESS',
+          message: `🚨 DURESS ALERT: ${alert.branch_name || 'Branch'} — ${alert.teller_name || 'Teller'} — ₹${Number(alert.amount || 0).toLocaleString('en-IN')}`,
+          severity: 'critical'
+        },
+        ...prev
+      ].slice(0, 50));
     };
 
     socket.on('case:new', handleNewCase);
