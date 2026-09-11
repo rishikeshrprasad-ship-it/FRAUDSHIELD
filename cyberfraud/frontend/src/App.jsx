@@ -56,7 +56,12 @@ export default function App() {
 
   // Initialize Socket.io connection with automated 15s REST polling fallback
   useEffect(() => {
-    const socket = io(BACKEND_URL, {\n      transports: ['websocket', 'polling'],\n      reconnection: true,\n      reconnectionAttempts: Infinity,\n      reconnectionDelay: 1000\n    });
+    const socket = io(BACKEND_URL, {
+      transports: ['websocket', 'polling'],
+      reconnection: true,
+      reconnectionAttempts: Infinity,
+      reconnectionDelay: 1000
+    });
 
     socketRef.current = socket;
 
@@ -116,7 +121,8 @@ export default function App() {
   useEffect(() => {
     fetch(`${BACKEND_URL}/api/cases`)
       .then((res) => res.json())
-      .then((data) => setCases(data))\n      .catch((err) => console.error('Failed to fetch cases:', err));
+      .then((data) => setCases(data))
+      .catch((err) => console.error('Failed to fetch cases:', err));
   }, []);
 
   // Restore session from localStorage
