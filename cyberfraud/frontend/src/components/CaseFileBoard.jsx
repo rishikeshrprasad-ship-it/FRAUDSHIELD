@@ -103,7 +103,20 @@ export default function CaseFileBoard({ cases, onSelectCase, onClaimCase, curren
           </div>
 
           <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-800 font-mono text-xs">
-            {['ALL', 'PENDING', 'CLAIMED', 'FROZEN'].map((st) => (\n              <button\n                key={st}\n                type="button"\n                onClick={() => setFilterStatus(st)}\n                className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${\n                  filterStatus === st\n                    ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-950/60'\n                    : 'text-slate-400 hover:text-slate-200'\n                }`}\n              >\n                {st}\n              </button>\n            ))}
+            {['ALL', 'PENDING', 'CLAIMED', 'FROZEN'].map((st) => (
+              <button
+                key={st}
+                type="button"
+                onClick={() => setFilterStatus(st)}
+                className={`px-3 py-1 rounded-lg font-bold transition cursor-pointer ${
+                  filterStatus === st
+                    ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-950/60'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                {st}
+              </button>
+            ))}
           </div>
         </div>
       </div>
