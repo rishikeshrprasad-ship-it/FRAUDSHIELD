@@ -115,4 +115,11 @@ self.onmessage = function (e) {
   // Format finalized payload for main thread
   self.postMessage({
     nodes: simNodes,
-    links: links.map((l) => ({\n      source: typeof l.source === 'object' ? l.source.id : l.source,\n      target: typeof l.target === 'object' ? l.target.id : l.target,\n      value: l.value || 3\n    })),\n    completedTicks: iterations\n  });\n};\n
+    links: links.map((l) => ({
+      source: typeof l.source === 'object' ? l.source.id : l.source,
+      target: typeof l.target === 'object' ? l.target.id : l.target,
+      value: l.value || 3
+    })),
+    completedTicks: iterations
+  });
+};
