@@ -318,7 +318,7 @@ export default function FileFraudCase({ onCaseReported }) {
     }
 
     try {
-      const response = await fetch('http://localhost:4000/api/report', {
+      const response = await fetch('/api/report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -339,7 +339,8 @@ export default function FileFraudCase({ onCaseReported }) {
       });
 
       if (!response.ok) {
-        throw new Error(`Server returned HTTP ${response.status}`);
+        const errorBody = await response.json().catch(() => null);
+        throw new Error(errorBody?.error || `Server returned HTTP ${response.status}`);
       }
 
       const newCase = await response.json();
@@ -353,7 +354,7 @@ export default function FileFraudCase({ onCaseReported }) {
       setDescription('');
       setSuspectAccount('');
     } catch (err) {
-      setStatusMsg(`Error submitting report: ${err.message}. Verify backend server is running on port 4000.`);
+      setStatusMsg(`Error submitting report: ${err.message}. Please try again.`);
       setStatusType('error');
     } finally {
       setLoading(false);
