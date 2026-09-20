@@ -318,7 +318,7 @@ export default function FileFraudCase({ onCaseReported }) {
     }
 
     try {
-      const response = await fetch('http://localhost:4000/api/report', {
+      const response = await fetch('/api/report', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -338,11 +338,12 @@ export default function FileFraudCase({ onCaseReported }) {
         })
       });
 
+      const responseBody = await response.json().catch(() => ({}));
       if (!response.ok) {
-        throw new Error(`Server returned HTTP ${response.status}`);
+        throw new Error(responseBody.error || `Server returned HTTP ${response.status}`);
       }
 
-      const newCase = await response.json();
+      const newCase = responseBody;
       setStatusMsg(`Case #${newCase.id || 'FS-' + Date.now().toString().slice(-4)} successfully registered! Incident broadcast to Law Enforcement Command Center & NPCI Lien Gateway.`);
       setStatusType('success');
       if (onCaseReported) onCaseReported(newCase);
@@ -353,7 +354,7 @@ export default function FileFraudCase({ onCaseReported }) {
       setDescription('');
       setSuspectAccount('');
     } catch (err) {
-      setStatusMsg(`Error submitting report: ${err.message}. Verify backend server is running on port 4000.`);
+      setStatusMsg(`Error submitting report: ${err.message}`);
       setStatusType('error');
     } finally {
       setLoading(false);
