@@ -25,6 +25,7 @@ import {
   Zap,
   Lock
 } from 'lucide-react';
+import { BACKEND_URL } from '../config/api.js';
 
 const SCAM_CATEGORIES = [
   { value: 'Digital Arrest / Impersonation', label: 'Digital Arrest / Impersonation', desc: 'Fake CBI/ED/Police video coercion' },
@@ -318,7 +319,7 @@ export default function FileFraudCase({ onCaseReported }) {
     }
 
     try {
-      const response = await fetch('http://localhost:4000/api/report', {
+      const response = await fetch(`${BACKEND_URL}/api/report`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -353,7 +354,7 @@ export default function FileFraudCase({ onCaseReported }) {
       setDescription('');
       setSuspectAccount('');
     } catch (err) {
-      setStatusMsg(`Error submitting report: ${err.message}. Verify backend server is running on port 4000.`);
+      setStatusMsg(`Error submitting report: ${err.message}. Please check your connection and try again.`);
       setStatusType('error');
     } finally {
       setLoading(false);
